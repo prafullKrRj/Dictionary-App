@@ -1,6 +1,8 @@
 package com.prafullkumar.dictionary.ui.commons
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -13,9 +15,10 @@ import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun ErrorScreen(onRetry: () -> Unit) {
-    Box(
+    Column(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
             onClick = onRetry
@@ -39,3 +42,17 @@ fun LoadingScreen() {
         CircularProgressIndicator()
     }
 }
+
+@Composable
+fun Initial() {
+    Box(
+        modifier = Modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            modifier = Modifier,
+            text = "Enter word to search",
+            style = MaterialTheme.typography.displayMedium,
+            textAlign = TextAlign.Start,
+        )
+    }}
