@@ -1,13 +1,15 @@
 package com.prafullkumar.dictionary.ui.homeScreen
 
-import androidx.compose.material3.Card
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.prafullkumar.dictionary.domain.models.Definition
 import com.prafullkumar.dictionary.domain.models.Meaning
@@ -74,19 +77,20 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
 
 @Composable
 fun SuccessScreen(wordInfo: WordInfo) {
-    LazyColumn(contentPadding = PaddingValues(horizontal = 12.dp)) {
+    LazyColumn(contentPadding = PaddingValues(horizontal = 12.dp), modifier = Modifier.padding(vertical = 8.dp)) {
         item {
             Text(
                 modifier = Modifier,
-                text = wordInfo?.get(0)?.word ?: "Sorry",
-                style = MaterialTheme.typography.bodyMedium,
+                text = wordInfo?.get(0)?.word?.capitalize() ?: "Sorry",
+                style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Start,
             )
+            Spacer(modifier = Modifier.height(8.dp))
         }
-        wordInfo.forEach { wordInfoItem ->
-            wordInfoItem.meanings.forEachIndexed { index, meaning ->
+        if (wordInfo.isNotEmpty()) {
+            wordInfo[0].meanings.forEachIndexed { index, meaning ->
                 item {
-                    Text(text = "Meaning ${index + 1}")
+                    Text(text = "Meaning ${index + 1}", fontSize = 20.sp)
                     MeaningComp(meaning = meaning)
                 }
             }
@@ -102,14 +106,17 @@ fun MeaningComp(meaning: Meaning) {
             .fillMaxWidth()
     ) {
         meaning?.partOfSpeech?.let { Text(text = "Part of Speech: ${meaning.partOfSpeech}", modifier = Modifier.padding(8.dp)) }
-        meaning.definitions.forEach { definition ->
-            DefinitionComp(definition = definition)
+        if (meaning.definitions.isNotEmpty()) {
+            Text(text = "Definitions", fontSize = 16.sp, modifier = Modifier.padding(8.dp))
+        }
+        meaning.definitions.forEachIndexed { index, definition ->
+            DefinitionComp(index, definition)
         }
     }
 }
 
 @Composable
-fun DefinitionComp(definition: Definition) {
+fun DefinitionComp(index: Int, definition: Definition) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,8 +127,12 @@ fun DefinitionComp(definition: Definition) {
         Column(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
-            Text(text = definition.definition)
-            Text(text = "ex: ${definition.example}")
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(text = "${index + 1}", modifier = Modifier.weight(.1f))
+                Text(text = definition.definition, modifier = Modifier.weight(.9f))
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = "Ex: ${definition.example}")
         }
     }
 }
