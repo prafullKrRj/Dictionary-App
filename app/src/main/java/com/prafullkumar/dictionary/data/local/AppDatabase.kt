@@ -1,4 +1,7 @@
 package com.prafullkumar.dictionary.data.local
 
-class AppDatabase {
+import androidx.room.Database
+
+
+abstract class AppDatabase {
 }
