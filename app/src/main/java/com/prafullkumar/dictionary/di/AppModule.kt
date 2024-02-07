@@ -1,5 +1,9 @@
 package com.prafullkumar.dictionary.di
 
+import android.app.Application
+import android.content.Context
+import androidx.room.Room
+import com.prafullkumar.dictionary.data.local.AppDatabase
 import com.prafullkumar.dictionary.data.remote.DictionaryApiService
 import dagger.Module
 import dagger.Provides
@@ -13,7 +17,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
     @Provides
     @Singleton
     fun providesDictionaryApi(): DictionaryApiService {
@@ -24,5 +27,18 @@ object AppModule {
             .build()
             .create(DictionaryApiService::class.java)
     }
-
+    /*@Provides
+    @Singleton
+    fun provideContext(application: Application): Application {
+        return application
+    }*/
+    @Provides
+    @Singleton
+    fun provideAppDatabase(application: Application): AppDatabase {
+        return Room.databaseBuilder(
+            application,
+            AppDatabase::class.java,
+            "app_database"
+        ).build()
+    }
 }

@@ -43,34 +43,24 @@ fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
     var currentQuery by rememberSaveable {
         mutableStateOf("")
     }
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(title = {
-                Text("Dictionary App")
-            })
+    SearchBar { query ->
+        currentQuery = query
+        viewModel.getMeaning(query)
+    }
+    when (state) {
+        is Resource.Error -> {
+            ErrorScreen {
+                viewModel.getMeaning(currentQuery)
+            }
         }
-    ) { paddingValues ->
-        Column(modifier = Modifier.padding(paddingValues)) {
-            SearchBar { query ->
-                currentQuery = query
-                viewModel.getMeaning(query)
-            }
-            when (state) {
-                is Resource.Error -> {
-                    ErrorScreen {
-                        viewModel.getMeaning(currentQuery)
-                    }
-                }
-                Resource.Initial -> {
-                    Initial()
-                }
-                Resource.Loading -> {
-                    LoadingScreen()
-                }
-                is Resource.Success -> {
-                    SuccessScreen((state as Resource.Success<WordInfo>).data)
-                }
-            }
+        Resource.Initial -> {
+            Initial()
+        }
+        Resource.Loading -> {
+            LoadingScreen()
+        }
+        is Resource.Success -> {
+            SuccessScreen((state as Resource.Success<WordInfo>).data)
         }
     }
 }
