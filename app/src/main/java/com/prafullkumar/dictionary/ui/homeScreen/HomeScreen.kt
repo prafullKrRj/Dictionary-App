@@ -11,11 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,10 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.prafullkumar.dictionary.domain.models.Definition
 import com.prafullkumar.dictionary.domain.models.Meaning
-import com.prafullkumar.dictionary.domain.models.WordInfo
 import com.prafullkumar.dictionary.domain.models.WordInfoItem
 import com.prafullkumar.dictionary.ui.commons.ErrorScreen
 import com.prafullkumar.dictionary.ui.commons.Initial
@@ -65,7 +60,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
             }
 
             is Resource.Success -> {
-                SuccessScreen((state as Resource.Success<WordInfo>).data)
+                SuccessScreen((state as Resource.Success<List<WordInfoItem>>).data)
             }
         }
     }

@@ -4,6 +4,7 @@ import com.prafullkumar.dictionary.data.local.AppDao
 import com.prafullkumar.dictionary.data.local.HistoryEntity
 import com.prafullkumar.dictionary.data.remote.DictionaryApiService
 import com.prafullkumar.dictionary.domain.models.WordInfo
+import com.prafullkumar.dictionary.domain.models.WordInfoItem
 import com.prafullkumar.dictionary.domain.repositories.HomeRepository
 import com.prafullkumar.dictionary.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ class HomeRepositoryImpl @Inject constructor(
     private val appDao: AppDao
 ): HomeRepository {
 
-    override suspend fun getMeaning(word: String): Flow<Resource<WordInfo>> = flow {
+    override suspend fun getMeaning(word: String): Flow<Resource<List<WordInfoItem>>> = flow {
         emit(Resource.Loading)
         try {
             val response = dictionaryApiService.getWord(word)

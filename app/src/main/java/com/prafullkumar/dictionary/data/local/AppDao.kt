@@ -12,7 +12,7 @@ interface AppDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertWord(historyEntity: HistoryEntity)
 
-    @Query("SELECT * FROM history")
+    @Query("SELECT * FROM history ORDER BY time DESC")
     fun getHistory(): Flow<List<HistoryEntity>>
 
     @Query("SELECT * FROM history WHERE word = :word")

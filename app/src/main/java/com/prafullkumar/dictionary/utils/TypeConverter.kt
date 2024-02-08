@@ -1,5 +1,7 @@
 package com.prafullkumar.dictionary.utils
 
+import android.util.Log
+import android.widget.ListAdapter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -7,14 +9,18 @@ import com.prafullkumar.dictionary.domain.models.WordInfoItem
 
 class WordsInfoTypeConverter {
 
+    private val gson = Gson()
     @TypeConverter
     fun fromWordInfoList(wordInfo: List<WordInfoItem>): String {
-        return Gson().toJson(wordInfo)
+        val x = gson.toJson(wordInfo)
+        Log.d("TypeConverter", "fromWordInfoList: $x")
+        return gson.toJson(wordInfo)
     }
 
     @TypeConverter
     fun toWordInfoList(wordInfo: String): List<WordInfoItem> {
-        val listType = object : TypeToken<List<WordInfoItem>>() {}.type
-        return Gson().fromJson(wordInfo, listType)
+        val x: List<WordInfoItem> = gson.fromJson(wordInfo, object : TypeToken<List<WordInfoItem>>() {}.type)
+        Log.d("TypeConverter", "toWordInfoList: $x")
+        return x
     }
 }

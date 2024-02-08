@@ -3,7 +3,7 @@ package com.prafullkumar.dictionary.ui.homeScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.prafullkumar.dictionary.data.local.HistoryEntity
-import com.prafullkumar.dictionary.domain.models.WordInfo
+import com.prafullkumar.dictionary.domain.models.WordInfoItem
 import com.prafullkumar.dictionary.domain.repositories.HomeRepository
 import com.prafullkumar.dictionary.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository
 ):ViewModel() {
 
-    private val _wordState = MutableStateFlow<Resource<WordInfo>>(Resource.Initial)
+    private val _wordState = MutableStateFlow<Resource<List<WordInfoItem>>>(Resource.Initial)
     val wordState = _wordState.asStateFlow()
 
 
@@ -50,11 +50,11 @@ class HomeViewModel @Inject constructor(
                         }
                         viewModelScope.launch {
                             withContext(Dispatchers.IO) {
-                                val x = resp.data
                                 homeRepository.saveWord(
                                     HistoryEntity(
                                         word = word,
-                                        wordInfo = resp.data.toList()
+                                        wordInfo = resp.data.toList(),
+                                        time = System.currentTimeMillis()
                                     )
                                 )
                             }
