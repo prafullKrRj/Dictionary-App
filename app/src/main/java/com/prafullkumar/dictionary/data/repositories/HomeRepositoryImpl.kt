@@ -3,7 +3,6 @@ package com.prafullkumar.dictionary.data.repositories
 import com.prafullkumar.dictionary.data.local.AppDao
 import com.prafullkumar.dictionary.data.local.HistoryEntity
 import com.prafullkumar.dictionary.data.remote.DictionaryApiService
-import com.prafullkumar.dictionary.domain.models.WordInfo
 import com.prafullkumar.dictionary.domain.models.WordInfoItem
 import com.prafullkumar.dictionary.domain.repositories.HomeRepository
 import com.prafullkumar.dictionary.utils.Resource

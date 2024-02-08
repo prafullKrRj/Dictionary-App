@@ -1,7 +1,6 @@
 package com.prafullkumar.dictionary.utils
 
 import android.util.Log
-import android.widget.ListAdapter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
