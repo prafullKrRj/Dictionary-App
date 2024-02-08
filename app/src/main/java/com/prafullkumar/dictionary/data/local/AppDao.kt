@@ -1,12 +1,20 @@
 package com.prafullkumar.dictionary.data.local
 
 import androidx.room.Dao
-import androidx.room.Upsert
-import com.prafullkumar.dictionary.domain.models.WordInfo
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface AppDao {
-    @Upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertWord(historyEntity: HistoryEntity)
+
+    @Query("SELECT * FROM history")
+    fun getHistory(): Flow<List<HistoryEntity>>
+
+    @Query("SELECT * FROM history WHERE word = :word")
+    fun getWordInfo(word: String): HistoryEntity
 }

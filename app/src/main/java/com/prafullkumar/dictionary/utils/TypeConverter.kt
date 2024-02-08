@@ -6,16 +6,15 @@ import com.google.gson.reflect.TypeToken
 import com.prafullkumar.dictionary.domain.models.WordInfoItem
 
 class WordsInfoTypeConverter {
-    private val gson = Gson()
 
     @TypeConverter
-    fun fromWordInfo(wordInfo: List<WordInfoItem>): String {
-        return gson.toJson(wordInfo)
+    fun fromWordInfoList(wordInfo: List<WordInfoItem>): String {
+        return Gson().toJson(wordInfo)
     }
 
     @TypeConverter
-    fun toWordInfo(data: String): List<WordInfoItem> {
+    fun toWordInfoList(wordInfo: String): List<WordInfoItem> {
         val listType = object : TypeToken<List<WordInfoItem>>() {}.type
-        return gson.fromJson(data, listType)
+        return Gson().fromJson(wordInfo, listType)
     }
 }

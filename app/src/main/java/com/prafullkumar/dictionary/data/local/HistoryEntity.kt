@@ -7,6 +7,7 @@ import com.prafullkumar.dictionary.utils.WordsInfoTypeConverter
 
 
 @Entity(tableName = "history", primaryKeys = ["word"])
+@TypeConverters(WordsInfoTypeConverter::class)
 data class HistoryEntity(
     val word: String,
     @TypeConverters(WordsInfoTypeConverter::class)

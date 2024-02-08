@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,43 +31,48 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.prafullkumar.dictionary.domain.models.Definition
 import com.prafullkumar.dictionary.domain.models.Meaning
 import com.prafullkumar.dictionary.domain.models.WordInfo
+import com.prafullkumar.dictionary.domain.models.WordInfoItem
 import com.prafullkumar.dictionary.ui.commons.ErrorScreen
 import com.prafullkumar.dictionary.ui.commons.Initial
 import com.prafullkumar.dictionary.ui.commons.LoadingScreen
 import com.prafullkumar.dictionary.ui.commons.SearchBar
 import com.prafullkumar.dictionary.utils.Resource
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(viewModel: HomeViewModel) {
     val state by viewModel.wordState.collectAsState()
     var currentQuery by rememberSaveable {
         mutableStateOf("")
     }
-    SearchBar { query ->
-        currentQuery = query
-        viewModel.getMeaning(query)
-    }
-    when (state) {
-        is Resource.Error -> {
-            ErrorScreen {
-                viewModel.getMeaning(currentQuery)
+    Column(modifier = Modifier.fillMaxSize()) {
+        SearchBar { query ->
+            currentQuery = query
+            viewModel.getMeaning(query)
+        }
+        when (state) {
+            is Resource.Error -> {
+                ErrorScreen {
+                    viewModel.getMeaning(currentQuery)
+                }
             }
-        }
-        Resource.Initial -> {
-            Initial()
-        }
-        Resource.Loading -> {
-            LoadingScreen()
-        }
-        is Resource.Success -> {
-            SuccessScreen((state as Resource.Success<WordInfo>).data)
+
+            Resource.Initial -> {
+                Initial()
+            }
+
+            Resource.Loading -> {
+                LoadingScreen()
+            }
+
+            is Resource.Success -> {
+                SuccessScreen((state as Resource.Success<WordInfo>).data)
+            }
         }
     }
 }
 
 @Composable
-fun SuccessScreen(wordInfo: WordInfo) {
+fun SuccessScreen(wordInfo: List<WordInfoItem>) {
     LazyColumn(contentPadding = PaddingValues(horizontal = 12.dp), modifier = Modifier.padding(vertical = 8.dp)) {
         item {
             Text(

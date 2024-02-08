@@ -3,8 +3,13 @@ package com.prafullkumar.dictionary.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.prafullkumar.dictionary.data.local.AppDao
 import com.prafullkumar.dictionary.data.local.AppDatabase
 import com.prafullkumar.dictionary.data.remote.DictionaryApiService
+import com.prafullkumar.dictionary.data.repositories.HistoryRepositoryImpl
+import com.prafullkumar.dictionary.data.repositories.HomeRepositoryImpl
+import com.prafullkumar.dictionary.domain.repositories.HistoryRepository
+import com.prafullkumar.dictionary.domain.repositories.HomeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,5 +45,23 @@ object AppModule {
             AppDatabase::class.java,
             "app_database"
         ).build()
+    }
+    @Provides
+    @Singleton
+    fun provideAppDao(appDatabase: AppDatabase): AppDao {
+        return appDatabase.appDao()
+    }
+    @Provides
+    fun provideHomeRepository(dictionaryApiService: DictionaryApiService, appDao: AppDao): HomeRepository {
+        return HomeRepositoryImpl(
+            dictionaryApiService,
+            appDao
+        )
+    }
+    @Provides
+    fun provideHistoryRepository(appDao: AppDao): HistoryRepository {
+        return HistoryRepositoryImpl(
+            appDao
+        )
     }
 }
