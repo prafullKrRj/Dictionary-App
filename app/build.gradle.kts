@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.prafullkumar.dictionary"
+    namespace = "com.prafull.dictionary"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.prafullkumar.dictionary"
+        applicationId = "com.prafullr.dictionary"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
